@@ -1,0 +1,35 @@
+[build]
+  publish = "resoc-templates"
+  command = "npm run build-templates-list"
+
+[functions]
+  directory = "functions/"
+  node_bundler = "esbuild"
+  included_files = ["resoc-templates/**"]
+  external_node_modules = [
+    "chrome-aws-lambda",
+    "puppeteer-core",
+    "@resoc/core",
+    "@resoc/create-img-core",
+    "@netlify/functions"
+  ]
+
+[[redirects]]
+  from = "/templates/:template/content/*"
+  to = "/:template/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/templates/:template/:requestType/:dimensions*"
+  to = "/.netlify/functions/image"
+  status = 200
+
+[[redirects]]
+  from = "/templates"
+  to = "/templates-list.json"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
