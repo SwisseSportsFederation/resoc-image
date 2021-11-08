@@ -1,13 +1,21 @@
 import { FacebookOpenGraph, ImageResolution, ImageTemplate, ParamValue, ParamValues, TemplateParam, TwitterCard } from '@resoc/core'
-import queryString, { ParsedQuery } from 'query-string'
 
 interface EventQueryStringParameters {
   [name: string]: string | undefined
 }
 
-export const parseRawQuery = (rawQuery: string): ParsedQuery => (
-  queryString.parse(rawQuery)
-)
+type ParsedQuery = { [name: string]: string };
+
+export const parseRawQuery = (rawQuery: string): ParsedQuery => {
+  const parsed: ParsedQuery = {};
+  rawQuery.split('&').forEach(p => {
+    const [ name, value ] = p.split('=');
+    if (name && value) {
+      parsed[name] = decodeURIComponent(value);
+    }
+  });
+  return parsed;
+};
 
 export const queryParamsToParamValues = (
   templateParams: TemplateParam[], queryParams: ParsedQuery
@@ -24,13 +32,14 @@ export const queryParamsToParamValues = (
   return values;
 }
 
-export const parseImageFormat = (formatParam: string | undefined | null): 'png' | 'jpeg' | 'webp' => {
+export type ImageFormat = 'png' | 'jpeg';
+
+export const parseImageFormat = (formatParam: string | undefined | null): ImageFormat => {
   switch(formatParam) {
     case('jpg'):
     case('jpeg'):
       return 'jpeg';
     case('png'):
-    case('webp'):
       return formatParam;
     case(null):
     case(undefined):
@@ -62,7 +71,9 @@ export const parseDimensions = (dimsParam: string | undefined | null): ImageReso
   }
 }
 
-export const parseRequestType = (requestTypeParam: string | undefined | null): 'image' | 'demo' => {
+export type RequestType = 'image' | 'demo';
+
+export const parseRequestType = (requestTypeParam: string | undefined | null): RequestType => {
   switch(requestTypeParam) {
     case('images'):
       return 'image';
@@ -72,3 +83,24 @@ export const parseRequestType = (requestTypeParam: string | undefined | null): '
       throw `Invalid request type: ${requestTypeParam}`;
   }
 }
+
+export type ImageRequest = {
+  template: string;
+  format: ImageFormat;
+  resolution: ImageResolution;
+  type: 'image' | 'demo';
+};
+
+export const parseImageRequest = (request: string): ImageRequest | null => {
+  const match = request.match(/\/templates\/([\w-]+)\/(\w+)\/([\w-]+)\.(\w+)/);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    template: match[1],
+    type: parseRequestType(match[2]),
+    resolution: parseDimensions(match[3]),
+    format: parseImageFormat(match[4])
+  }
+};

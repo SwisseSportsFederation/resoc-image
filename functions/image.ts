@@ -3,28 +3,27 @@ import { Handler } from '@netlify/functions'
 import path from 'path'
 import chromium from 'chrome-aws-lambda'
 import { demoParamValues, FacebookOpenGraph, ParamValue, ParamValues } from '@resoc/core'
-import { loadLocalTemplate, renderLocalTemplate, convertUrlToImage } from '@resoc/create-img-core'
+//import { loadLocalTemplate, renderLocalTemplate, convertUrlToImage } from '@resoc/create-img-core'
 import { ScreenshotOptions } from 'puppeteer-core'
-import Route from 'route-parser'
 
-import { parseRawQuery, queryParamsToParamValues, parseImageFormat, parseDimensions, parseRequestType } from '../src/utils'
+import { parseRawQuery, queryParamsToParamValues, parseImageFormat, parseDimensions, parseRequestType, parseImageRequest } from '../src/functions/utils'
+import { loadLocalTemplate } from '../src/functions/local'
+import { renderLocalTemplate } from '../src/functions/compile'
+import { convertUrlToImage } from '../src/functions/puppeteer'
 
 export const handler: Handler = async (event, context) => {
   try {
-    const route = new Route('/templates/:template/:requestType/:dimensions.:format');
-    const routeParams = route.match(event.path);
-    if (!routeParams) {
+    const request = parseImageRequest(event.path);
+    if (!request) {
       throw "Internal error: no route parameters";
     }
 
-    const templateName = routeParams['template'];
-    const templateDir = `resoc-templates/${templateName}`;
+    const templateDir = `resoc-templates/${request.template}`;
     const template = await loadLocalTemplate(`${templateDir}/resoc.manifest.json`);
-    const imageDimensions = parseDimensions(routeParams['dimensions']);
+    const imageDimensions = request.resolution;
 
-    const requestType = parseRequestType(routeParams['requestType']);
     let paramValues: ParamValues;
-    if (requestType === 'image') {
+    if (request.type === 'image') {
       const rawParams = event.body ? JSON.parse(event.body) : parseRawQuery(event.rawQuery);
       paramValues = queryParamsToParamValues(template.parameters, rawParams);
     } else {
@@ -38,11 +37,10 @@ export const handler: Handler = async (event, context) => {
       templateDir
     );
 
-    const format = parseImageFormat(routeParams['format']);
     const imageFormat: ScreenshotOptions = {
-      type: format
+      type: request.format
     };
-    if (format === 'jpeg') {
+    if (request.format === 'jpeg') {
       imageFormat.quality = 80;
     }
 
