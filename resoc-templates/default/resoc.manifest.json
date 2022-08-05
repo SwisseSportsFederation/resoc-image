@@ -15,11 +15,6 @@
       "demoValue": "And so much to say!"
     },
     {
-      "name": "image",
-      "type": "image",
-      "demoValue": "https://sesf.ch/static/a401ade16af6edf5f5c3424da0d4c459/ef4e8/Capture_d_ecran_2022_05_17_a_17_41_a227dd6316.webp"
-    },
-    {
       "name": "author",
       "type": "text",
       "demoValue": "SESF"
