@@ -65,3 +65,4 @@ For example `/templates/title-description/demos/twitter-card.jpg`
 In the entry points above:
 - `[dimensions]` can be `open-graph`, `twitter-card` or an arbitrary resolution such as `1000x800`.
 - `[format]` can be `jpg`, `jpeg` or `png`.
+# resoc-sesf
