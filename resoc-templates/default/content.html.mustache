@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <main>
+    <div class="bg-img"></div>
+    <div class="sideImage"></div>
+    <h1 id="title">
+      {{ title }}
+    </h1>
+  </main>
+  <footer>
+    <div class="author">
+      <img id="logo" src="{{author_picture}}" />
+      {{author}}
+    </div>
+    <img id="logo" src="img.png" />
+  </footer>
+</div>
+
+<script src="textFit.js"></script>
+<script>
+  window.onload = function() {
+    textFit(document.getElementById('title'), { maxFontSize: 500, multiLine: true });
+  };
+</script>

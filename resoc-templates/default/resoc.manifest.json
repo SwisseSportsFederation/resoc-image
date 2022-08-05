@@ -1,0 +1,38 @@
+{
+  "partials": {
+    "content": "./content.html.mustache",
+    "styles": "./styles.css.mustache"
+  },
+  "parameters": [
+    {
+      "name": "title",
+      "type": "text",
+      "demoValue": "Cancelling SESF Participation in the 2022 IESF World Championship"
+    },
+    {
+      "name": "description",
+      "type": "text",
+      "demoValue": "And so much to say!"
+    },
+    {
+      "name": "image",
+      "type": "image",
+      "demoValue": "https://sesf.ch/static/a401ade16af6edf5f5c3424da0d4c459/ef4e8/Capture_d_ecran_2022_05_17_a_17_41_a227dd6316.webp"
+    },
+    {
+      "name": "author",
+      "type": "text",
+      "demoValue": "SESF"
+    },
+    {
+      "name": "author_picture",
+      "type": "image",
+      "demoValue": "https://i.pravatar.cc/300"
+    },
+    {
+      "name": "sideImage",
+      "type": "imageUrl",
+      "demoValue": "https://sesf.ch/static/4c0b692c5d4f4a01facecbd419a8686c/702da/Sans_titre_3_min_ae4880d67a.webp"
+    }
+  ]
+}

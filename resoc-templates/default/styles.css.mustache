@@ -1,0 +1,95 @@
+@font-face {
+  font-family: "Barlow";
+  src: url("./barlow-v5-latin-regular.woff2"),
+  font-display: swap;
+}
+
+/* barlow-700 - latin */
+@font-face {
+  font-family: "Barlow";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: local(""), url("barlow-v5-latin-700.woff2") format("woff2"),
+  /* Chrome 26+, Opera 23+, Firefox 39+ */
+  url("barlow-v5-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+.wrapper{
+  display: flex;
+  flex-direction: column;
+background: rgb(185, 28, 28);
+color: #fff;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+.bg-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(pattern_svg.svg);
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: -5vh center;
+  -webkit-mask-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(9,9,121,0) 40%, rgba(0,212,255,0) 100%);
+  opacity: 0.2;
+}
+
+footer {
+    flex: 0 0;
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-items: between;
+    place-content: space-between;
+    background: #fff;
+    padding: 2vh 3vw 2vh 3vw;
+    font-family: "Barlow";
+    color: rgb(55, 65, 81);
+  }
+
+#logo {
+  height: 10vh;
+  margin-right: 2vw;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+}
+
+.author img {
+  height: 5vh;
+  margin-right: 1vw;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+h1 {
+    position: relative;
+    z-index: 1;
+    font-family: "Barlow";
+    text-align: right;
+    margin: 0 3vw 0 20vw;
+    letter-spacing: 0.5vw;
+  }
+
+{{#sideImage}}
+  .sideImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url({{{ sideImage }}});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: -15vw 0vh;
+  -webkit-mask-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(9,9,121,0) 50%, rgba(0,212,255,0) 100%);
+  }
+{{/sideImage}}
